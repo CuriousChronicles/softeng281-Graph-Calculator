@@ -11,40 +11,72 @@ import java.util.Set;
  * @param <T> The type of each vertex, that have a total ordering.
  */
 public class Graph<T extends Comparable<T>> {
-  public Graph(Set<T> verticies, Set<Edge<T>> edges) {}
+  private Set<T> verticies;
+  private Set<Edge<T>> edges;
+
+  public Graph(Set<T> verticies, Set<Edge<T>> edges) {
+    this.verticies = verticies;
+    this.edges = edges;
+  }
 
   public Set<T> getRoots() {
+    // Roots when the number of in degrees is 0 or the lowest equivalent vertex.
     // TODO: Task 1.
     throw new UnsupportedOperationException();
   }
 
   public boolean isReflexive() {
-    // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    // Is reflexive when every vertex has a self loop.
+    int reflexiveCount = 0;
+    for (T vertex : verticies) {
+      for (Edge<T> edge : edges) {
+        if ((edge.getSource() == vertex) && (edge.getDestination() == vertex)) {
+          reflexiveCount++;
+        }
+      }
+    }
+    if (reflexiveCount == verticies.size()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean isSymmetric() {
-    // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    // Is symmetric when for every edge (u, v) there is an edge (v, u).
+    for (Edge<T> edge : edges) {
+      for (Edge<T> i : edges) {
+        if ((edge.getSource() == i.getDestination()) && (edge.getDestination() == i.getSource())) {
+          continue;
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public boolean isTransitive() {
-    // TODO: Task 1.
+    // Is transitive when for every edge (u, v) and (v, w) there is an edge (u, w).
     throw new UnsupportedOperationException();
   }
 
   public boolean isAntiSymmetric() {
-    // TODO: Task 1.
+    // Is Antisymmetric when for every edge (u, v) and (v, u) then u = v.
     throw new UnsupportedOperationException();
   }
 
   public boolean isEquivalence() {
-    // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    // Is equivalence when it is reflexive, symmetric and transitive.
+    if (isReflexive() && isSymmetric() && isTransitive()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public Set<T> getEquivalenceClass(T vertex) {
-    // TODO: Task 1.
+    // The equivalence class of a vertex is the set of all verticies that are equivalent to it.
     throw new UnsupportedOperationException();
   }
 
