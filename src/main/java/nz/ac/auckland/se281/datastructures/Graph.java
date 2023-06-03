@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281.datastructures;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -139,8 +140,44 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> iterativeBreadthFirstSearch() {
-    // TODO: Task 2.
-    throw new UnsupportedOperationException();
+    Queue<T> queue = new Queue<>();
+    List<T> visited = new ArrayList<>();
+    List<T> path = new ArrayList<>();
+    Set<T> roots = getRoots();
+    if (roots.size() == 0) {
+      return path;
+    } else {
+      // Initialise the queue with the roots.
+      for (T root : roots) {
+        queue.enqueue(root);
+        visited.add(root);
+        while (!queue.isEmpty()) {
+          // Dequeue the first vertex
+          T vertex = queue.dequeue();
+          path.add(vertex);
+
+          // Add all the neighbours of the vertex to the queue.
+          for (T neighbour : getNeighbours(vertex)) {
+            if (!visited.contains(neighbour)) {
+              queue.enqueue(neighbour);
+              visited.add(neighbour);
+            }
+          }
+        }
+      }
+    }
+    return path;
+  }
+
+  public List<T> getNeighbours(T vertex) {
+    // Returns a list of all the neighbours of a vertex.
+    List<T> neighbours = new ArrayList<>();
+    for (Edge<T> edge : edges) {
+      if (edge.getSource() == vertex) {
+        neighbours.add(edge.getDestination());
+      }
+    }
+    return neighbours;
   }
 
   public List<T> iterativeDepthFirstSearch() {
