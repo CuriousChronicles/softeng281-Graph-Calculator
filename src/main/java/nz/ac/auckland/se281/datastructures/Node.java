@@ -1,5 +1,8 @@
 package nz.ac.auckland.se281.datastructures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node <T> {
     private T data;
     private Node<T> next;
@@ -39,5 +42,16 @@ public class Node <T> {
     public String toString() {
         return data.toString();
     }
+
+    // public List<T> getNeighbours(T vertex) {
+    //     // Returns a list of all the neighbours of a vertex.
+    //     List<T> neighbours = new ArrayList<>();
+    //     for (Edge<T> edge : edges) {
+    //       if (edge.getSource() == vertex) {
+    //         neighbours.add(edge.getDestination());
+    //       }
+    //     }
+    //     return neighbours;
+    //   }
     
 }

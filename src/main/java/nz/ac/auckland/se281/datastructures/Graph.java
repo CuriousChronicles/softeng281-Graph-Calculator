@@ -140,6 +140,8 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> iterativeBreadthFirstSearch() {
+    // Need to implement this with O(1) using linked list.
+
     Queue<T> queue = new Queue<>();
     List<T> visited = new ArrayList<>();
     List<T> path = new ArrayList<>();

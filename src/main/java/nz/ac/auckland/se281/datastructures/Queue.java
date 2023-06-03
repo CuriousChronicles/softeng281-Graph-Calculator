@@ -3,11 +3,11 @@ package nz.ac.auckland.se281.datastructures;
 import java.util.ArrayList;
 
 public class Queue<T> {
-    ArrayList<T> queue;
+    LinkedList<T> queue;
     
     public Queue() {
         // Create a new queue
-        this.queue = new ArrayList<>();
+        this.queue = new LinkedList<>();
     }
 
     public void enqueue(T data) {
@@ -17,7 +17,14 @@ public class Queue<T> {
     
     public T dequeue() {
         // Removes the element from the front of the queue
-        return queue.remove(0);
+        if (queue.size() != 0) {
+            T data = queue.get(0);
+            queue.remove(0);
+            return data;
+        } else {
+            System.out.println("Queue is empty");
+            return null;
+        }
     }
 
     public T peek() {
