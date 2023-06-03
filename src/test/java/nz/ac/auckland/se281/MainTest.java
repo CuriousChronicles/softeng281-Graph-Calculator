@@ -232,7 +232,7 @@ public class MainTest {
     public void T3_B_recursive_BFS() throws Exception {
       runCommands(OPEN_FILE, "b.txt", GRAPH_SEARCH_RBFS);
       assertContains("Successfully opened graph from file b.txt");
-      assertContains("[0, 1, 2, 3, 4, 5]");
+      assertContains("[6, 5, 4, 3, 2, 1, 0]");
     }
 
     @Test
@@ -253,7 +253,7 @@ public class MainTest {
     public void T3_B_recursive_DFS() throws Exception {
       runCommands(OPEN_FILE, "b.txt", GRAPH_SEARCH_RDFS);
       assertContains("Successfully opened graph from file b.txt");
-      assertContains("[0, 1, 2, 3, 4, 5]");
+      assertContains("[6, 5, 4, 3, 2, 1, 0]");
     }
 
     @Test
@@ -270,8 +270,39 @@ public class MainTest {
     }
 
     @Test
-    public void TY_01_your_own_test() throws Exception {
-      // Write your own test here, in the same format as the other tests.
+    public void TY_01_test_one_IBFS() throws Exception {
+      runCommands(OPEN_FILE, "test-one.txt", GRAPH_SEARCH_IBFS);
+      assertContains("Successfully opened graph from file c.txt");
+      assertContains(
+          "[1, 2, 3, 4, 5, 10, 6, 7, 9, 8, 11, 15, 22, 29, 16, 23, 30, 13, 20, 27, 12, 19, 26, 14,"
+              + " 21, 28, 17, 24, 31, 18, 25, 32]");
+    }
+
+    @Test
+    public void TY_02_test_one_RBFS() throws Exception {
+      runCommands(OPEN_FILE, "test-one.txt", GRAPH_SEARCH_IBFS);
+      assertContains("Successfully opened graph from file c.txt");
+      assertContains(
+          "[1, 2, 3, 4, 5, 10, 6, 7, 9, 8, 11, 15, 22, 29, 16, 23, 30, 13, 20, 27, 12, 19, 26, 14,"
+              + " 21, 28, 17, 24, 31, 18, 25, 32]");
+    }
+
+    @Test
+    public void TY_03_test_one_IDFS() throws Exception {
+      runCommands(OPEN_FILE, "test-one.txt", GRAPH_SEARCH_IBFS);
+      assertContains("Successfully opened graph from file c.txt");
+      assertContains(
+          "[1, 2, 5, 15, 22, 29, 10, 16, 23, 30, 3, 6, 13, 20, 27, 7, 12, 19, 26, 9, 14, 21, 28, 4,"
+              + " 8, 17, 24, 31, 11, 18, 25, 32]");
+    }
+
+    @Test
+    public void TY_04_test_one_RDFS() throws Exception {
+      runCommands(OPEN_FILE, "test-one.txt", GRAPH_SEARCH_IBFS);
+      assertContains("Successfully opened graph from file c.txt");
+      assertContains(
+          "[1, 2, 5, 15, 22, 29, 10, 16, 23, 30, 3, 6, 13, 20, 27, 7, 12, 19, 26, 9, 14, 21, 28, 4,"
+              + " 8, 17, 24, 31, 11, 18, 25, 32]");
     }
   }
 }

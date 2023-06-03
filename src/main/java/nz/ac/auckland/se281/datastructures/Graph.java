@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281.datastructures;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,8 +22,37 @@ public class Graph<T extends Comparable<T>> {
 
   public Set<T> getRoots() {
     // Roots when the number of in degrees is 0 or the lowest equivalent vertex.
-    // TODO: Task 1.
-    throw new UnsupportedOperationException();
+    Set<T> graphRoots = new HashSet<>();
+
+    // Check for in degree of 0.
+    for (T vertex : verticies) {
+      int inDegree = 0;
+      for (Edge<T> edge : edges) {
+        if (edge.getDestination() == vertex) {
+          inDegree++;
+        }
+      }
+      if (inDegree == 0) {
+        graphRoots.add(vertex);
+      }
+    }
+
+    // Check for lowest equivalent vertex
+    if (isEquivalence()) {
+      for (T vertex : verticies) {
+        boolean isLowest = true;
+        Set<T> equivalenceClass = getEquivalenceClass(vertex);
+        for (T vertex2 : equivalenceClass) {
+          if (vertex.compareTo(vertex2) > 0) {
+            isLowest = false;
+          }
+        }
+        if (isLowest) {
+          graphRoots.add(vertex);
+        }
+      }
+    }
+    return graphRoots;
   }
 
   public boolean isReflexive() {
@@ -45,12 +75,10 @@ public class Graph<T extends Comparable<T>> {
   public boolean isSymmetric() {
     // Is symmetric when for every edge (u, v) there is an edge (v, u).
     for (Edge<T> edge : edges) {
-      for (Edge<T> i : edges) {
-        if ((edge.getSource() == i.getDestination()) && (edge.getDestination() == i.getSource())) {
-          continue;
-        } else {
-          return false;
-        }
+      if (edges.contains(new Edge<T>(edge.getDestination(), edge.getSource()))) {
+        continue;
+      } else {
+        return false;
       }
     }
     return true;
@@ -58,12 +86,32 @@ public class Graph<T extends Comparable<T>> {
 
   public boolean isTransitive() {
     // Is transitive when for every edge (u, v) and (v, w) there is an edge (u, w).
-    throw new UnsupportedOperationException();
+    for (Edge<T> edge : edges) {
+      for (Edge<T> edge2 : edges) {
+        if (edge.getDestination() == edge2.getSource()) {
+          if (edges.contains(new Edge<T>(edge.getSource(), edge2.getDestination()))) {
+            continue;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
   }
 
   public boolean isAntiSymmetric() {
     // Is Antisymmetric when for every edge (u, v) and (v, u) then u = v.
-    throw new UnsupportedOperationException();
+    for (Edge<T> edge : edges) {
+      if (edges.contains(new Edge<T>(edge.getDestination(), edge.getSource()))) {
+        if (edge.getDestination() == edge.getSource()) {
+          continue;
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public boolean isEquivalence() {
@@ -77,7 +125,17 @@ public class Graph<T extends Comparable<T>> {
 
   public Set<T> getEquivalenceClass(T vertex) {
     // The equivalence class of a vertex is the set of all verticies that are equivalent to it.
-    throw new UnsupportedOperationException();
+    Set<T> equivalenceClass = new HashSet<>();
+    if (isEquivalence()) {
+      for (T vertex2 : verticies) {
+        if (vertex2 != vertex) {
+          if (edges.contains(new Edge<T>(vertex, vertex2))) {
+            equivalenceClass.add(vertex2);
+          }
+        }
+      }
+    }
+    return equivalenceClass;
   }
 
   public List<T> iterativeBreadthFirstSearch() {
