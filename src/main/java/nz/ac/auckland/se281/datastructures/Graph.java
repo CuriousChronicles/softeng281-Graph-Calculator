@@ -284,8 +284,40 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> recursiveDepthFirstSearch() {
-    // TODO: Task 3.
-    throw new UnsupportedOperationException();
+    Stack<T> stack = new Stack<>();
+    List<T> visited = new ArrayList<>();
+    List<T> path = new ArrayList<>();
+    Set<T> roots = getRoots();
+
+    // Initialise the stack with the roots.
+    for (T root : roots) {
+      stack.push(root);
+      visited.add(root);
+      DFSrecursive(stack, visited, path);
+    }
+
+    return path;
   }
 
+  public void DFSrecursive(Stack<T> stack, List<T> visited, List<T> path) {
+    // Base case
+    if (stack.isEmpty()) {
+      return;
+    }
+
+    T vertex = stack.pop();
+    path.add(vertex);
+
+    List<T> neighbours = getNeighbours(vertex);
+    // sort the neighbours in ascending order.
+    neighbours = sortList(neighbours);
+    
+    for (int i = neighbours.size() - 1; i >= 0; i--) {
+      if (!visited.contains(neighbours.get(i))) {
+        stack.push(neighbours.get(i));
+        visited.add(neighbours.get(i));
+      }
+    }
+    DFSrecursive(stack, visited, path);
+  }
 }
