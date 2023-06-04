@@ -2,6 +2,7 @@ package nz.ac.auckland.se281.datastructures;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class Graph<T extends Comparable<T>> {
 
   public Set<T> getRoots() {
     // Roots when the number of in degrees is 0 or the lowest equivalent vertex.
-    Set<T> graphRoots = new HashSet<>();
+    List<T> rootList = new ArrayList<>();
 
     // Check for in degree of 0.
     for (T vertex : verticies) {
@@ -34,7 +35,7 @@ public class Graph<T extends Comparable<T>> {
         }
       }
       if (inDegree == 0) {
-        graphRoots.add(vertex);
+        rootList.add(vertex);
       }
     }
 
@@ -49,10 +50,14 @@ public class Graph<T extends Comparable<T>> {
           }
         }
         if (isLowest) {
-          graphRoots.add(vertex);
+          rootList.add(vertex);
         }
       }
     }
+
+    rootList = sortList(rootList);
+    // Convert list to set.
+    Set<T> graphRoots = new LinkedHashSet<>(rootList);
     return graphRoots;
   }
 
@@ -146,6 +151,7 @@ public class Graph<T extends Comparable<T>> {
     List<T> visited = new ArrayList<>();
     List<T> path = new ArrayList<>();
     Set<T> roots = getRoots();
+
     if (roots.size() == 0) {
       return path;
     } else {
@@ -160,6 +166,7 @@ public class Graph<T extends Comparable<T>> {
 
           // Add all the neighbours of the vertex to the queue.
           for (T neighbour : getNeighbours(vertex)) {
+            System.out.println(getNeighbours(vertex));
             if (!visited.contains(neighbour)) {
               queue.enqueue(neighbour);
               visited.add(neighbour);
@@ -179,7 +186,29 @@ public class Graph<T extends Comparable<T>> {
         neighbours.add(edge.getDestination());
       }
     }
+
+    neighbours = sortList(neighbours);
     return neighbours;
+  }
+
+  public List<T> sortList(List<T> list) {
+    // Sorts a list in ascending order using bubble sort.
+    for (int i = 0; i < list.size() - 1; i++) {
+      for (int j = 0; j < list.size() - i - 1; j++) {
+        T element1 = list.get(j);
+        T element2 = list.get(j + 1);
+        Integer e1 = Integer.parseInt(element1.toString());
+        Integer e2 = Integer.parseInt(element2.toString());
+
+        if (e1 > e2) {
+          // swap neighbours[j+1] and neighbours[i]
+          T temp = list.get(j);
+          list.set(j, list.get(j + 1));
+          list.set(j + 1, temp);
+        }
+      }
+    }
+    return list;
   }
 
   public List<T> iterativeDepthFirstSearch() {
@@ -218,12 +247,45 @@ public class Graph<T extends Comparable<T>> {
   }
 
   public List<T> recursiveBreadthFirstSearch() {
-    // TODO: Task 3.
-    throw new UnsupportedOperationException();
+    Queue<T> queue = new Queue<>();
+    List<T> path = new ArrayList<>();
+    List<T> visited = new ArrayList<>();
+    Set<T> roots = getRoots();
+    // Load first vertex into the queue.
+    for (T root : roots) {
+      queue.enqueue(root);
+      visited.add(root);
+
+      BFSrecursive(queue, visited, path);
+    }
+    return path;
+  }
+
+  public void BFSrecursive(Queue<T> queue, List<T> visited, List<T> path) {
+    if (queue.isEmpty()) {
+      return;
+    }
+    T vertex = queue.dequeue();
+    // visited.add(vertex);
+    path.add(vertex);
+
+    List<T> neighbours = getNeighbours(vertex);
+    // sort the neighbours in ascending order.
+    neighbours = sortList(neighbours);
+
+    for (T neighbour : getNeighbours(vertex)) {
+      if (!visited.contains(neighbour)) {
+        queue.enqueue(neighbour);
+        visited.add(neighbour);
+      }
+    }
+
+    BFSrecursive(queue, visited, path);
   }
 
   public List<T> recursiveDepthFirstSearch() {
     // TODO: Task 3.
     throw new UnsupportedOperationException();
   }
+
 }
