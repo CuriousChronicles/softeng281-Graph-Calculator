@@ -17,11 +17,22 @@ public class Graph<T extends Comparable<T>> {
   private Set<T> verticies;
   private Set<Edge<T>> edges;
 
+  /**
+   * Constructs a new graph with the given verticies and edges.
+   *
+   * @param verticies The verticies of the graph.
+   * @param edges The edges of the graph.
+   */
   public Graph(Set<T> verticies, Set<Edge<T>> edges) {
     this.verticies = verticies;
     this.edges = edges;
   }
 
+  /**
+   * Returns the roots of the graph.
+   *
+   * @return The roots of the graph.
+   */
   public Set<T> getRoots() {
     // Roots when the number of in degrees is 0 or the lowest equivalent vertex.
     List<T> rootList = new ArrayList<>();
@@ -61,6 +72,11 @@ public class Graph<T extends Comparable<T>> {
     return graphRoots;
   }
 
+  /**
+   * Returns if the graph is reflexive.
+   *
+   * @return If the graph is reflexive.
+   */
   public boolean isReflexive() {
     // Is reflexive when every vertex has a self loop.
     int reflexiveCount = 0;
@@ -78,6 +94,11 @@ public class Graph<T extends Comparable<T>> {
     }
   }
 
+  /**
+   * Returns if the graph is symmetric.
+   *
+   * @return If the graph is symmetric.
+   */
   public boolean isSymmetric() {
     // Is symmetric when for every edge (u, v) there is an edge (v, u).
     for (Edge<T> edge : edges) {
@@ -90,6 +111,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Returns if the graph is transitive.
+   * 
+   * @return If the graph is transitive.
+   */
   public boolean isTransitive() {
     // Is transitive when for every edge (u, v) and (v, w) there is an edge (u, w).
     for (Edge<T> edge : edges) {
@@ -106,6 +132,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Returns if the graph is anti-symmetric.
+   *
+   * @return If the graph is anti-symmetric.
+   */
   public boolean isAntiSymmetric() {
     // Is Antisymmetric when for every edge (u, v) and (v, u) then u = v.
     for (Edge<T> edge : edges) {
@@ -120,6 +151,11 @@ public class Graph<T extends Comparable<T>> {
     return true;
   }
 
+  /**
+   * Returns if the graph is equivalent.
+   *
+   * @return If the graph is equivalent.
+   */
   public boolean isEquivalence() {
     // Is equivalence when it is reflexive, symmetric and transitive.
     if (isReflexive() && isSymmetric() && isTransitive()) {
@@ -129,6 +165,13 @@ public class Graph<T extends Comparable<T>> {
     }
   }
 
+  /**
+   * Returns the equivalence class of the given vertex.
+   * 
+   * @param vertex A vertex in the graph.
+   * 
+   * @return The equivalence class of the given vertex.
+   */
   public Set<T> getEquivalenceClass(T vertex) {
     // The equivalence class of a vertex is the set of all verticies that are equivalent to it.
     Set<T> equivalenceClass = new HashSet<>();
@@ -144,6 +187,11 @@ public class Graph<T extends Comparable<T>> {
     return equivalenceClass;
   }
 
+  /**
+   * Returns a list of a breadth first search of the graph.
+   *
+   * @return A list of a breadth first search of the graph.
+   */
   public List<T> iterativeBreadthFirstSearch() {
     // Need to implement this with O(1) using linked list.
 
@@ -178,6 +226,13 @@ public class Graph<T extends Comparable<T>> {
     return path;
   }
 
+  /**
+   * Returns a list of neighbours of a vertex.
+   * 
+   * @param vertex A vertex in the graph.  
+   * 
+   * @return A list of neighbours of a vertex.
+   */
   public List<T> getNeighbours(T vertex) {
     // Returns a list of all the neighbours of a vertex.
     List<T> neighbours = new ArrayList<>();
@@ -191,6 +246,13 @@ public class Graph<T extends Comparable<T>> {
     return neighbours;
   }
 
+  /**
+   * Returns a sorted list.
+   *
+   * @param list A list to be sorted.
+   * 
+   * @return A sorted list.
+   */
   public List<T> sortList(List<T> list) {
     // Sorts a list in ascending order using bubble sort.
     for (int i = 0; i < list.size() - 1; i++) {
@@ -211,6 +273,11 @@ public class Graph<T extends Comparable<T>> {
     return list;
   }
 
+  /**
+   * Returns a list of a depth first search of the graph.
+   *
+   * @return A list of a depth first search of the graph.
+   */
   public List<T> iterativeDepthFirstSearch() {
     Stack<T> stack = new Stack<>();
     List<T> visited = new ArrayList<>();
@@ -246,27 +313,39 @@ public class Graph<T extends Comparable<T>> {
     return path;
   }
 
+  /**
+   * Returns a list of a breadth first search of the graph resursively.
+   *
+   * @return A list of a breadth first search of the graph resursively.
+   */
   public List<T> recursiveBreadthFirstSearch() {
     Queue<T> queue = new Queue<>();
     List<T> path = new ArrayList<>();
     List<T> visited = new ArrayList<>();
     Set<T> roots = getRoots();
+
     // Load first vertex into the queue.
     for (T root : roots) {
       queue.enqueue(root);
       visited.add(root);
 
-      BFSrecursive(queue, visited, path);
+      breadthRecursiveHelper(queue, visited, path);
     }
     return path;
   }
 
-  public void BFSrecursive(Queue<T> queue, List<T> visited, List<T> path) {
+  /**
+   * Performs a breadth first search of the graph recursively.
+   *
+   * @param queue A queue of vertices.
+   * @param visited A list of visited vertices.
+   * @param path A list of vertices in the order they were visited.
+   */
+  public void breadthRecursiveHelper(Queue<T> queue, List<T> visited, List<T> path) {
     if (queue.isEmpty()) {
       return;
     }
     T vertex = queue.dequeue();
-    // visited.add(vertex);
     path.add(vertex);
 
     List<T> neighbours = getNeighbours(vertex);
@@ -280,9 +359,14 @@ public class Graph<T extends Comparable<T>> {
       }
     }
 
-    BFSrecursive(queue, visited, path);
+    breadthRecursiveHelper(queue, visited, path);
   }
 
+  /**
+   * Returns a list of depth first search of the graph recursively.
+   *
+   * @return A list of depth first search of the graph recursively.
+   */
   public List<T> recursiveDepthFirstSearch() {
     Stack<T> stack = new Stack<>();
     List<T> visited = new ArrayList<>();
@@ -293,13 +377,20 @@ public class Graph<T extends Comparable<T>> {
     for (T root : roots) {
       stack.push(root);
       visited.add(root);
-      DFSrecursive(stack, visited, path);
+      depthRecursiveHelper(stack, visited, path);
     }
 
     return path;
   }
 
-  public void DFSrecursive(Stack<T> stack, List<T> visited, List<T> path) {
+  /**
+   * Performs a depth first search of the graph recursively.
+   *
+   * @param stack A stack of vertices.
+   * @param visited A list of visited vertices.
+   * @param path A list of vertices in the order they were visited.
+   */
+  public void depthRecursiveHelper(Stack<T> stack, List<T> visited, List<T> path) {
     // Base case
     if (stack.isEmpty()) {
       return;
@@ -311,13 +402,13 @@ public class Graph<T extends Comparable<T>> {
     List<T> neighbours = getNeighbours(vertex);
     // sort the neighbours in ascending order.
     neighbours = sortList(neighbours);
-    
+
     for (int i = neighbours.size() - 1; i >= 0; i--) {
       if (!visited.contains(neighbours.get(i))) {
         stack.push(neighbours.get(i));
         visited.add(neighbours.get(i));
       }
     }
-    DFSrecursive(stack, visited, path);
+    depthRecursiveHelper(stack, visited, path);
   }
 }

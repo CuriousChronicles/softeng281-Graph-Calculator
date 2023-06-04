@@ -75,21 +75,21 @@ public class LinkedList<T> {
       throw new IndexOutOfBoundsException();
     }
     if (size == 1) {
-        head = null;
-        tail = null;
+      head = null;
+      tail = null;
     } else if (index == 0) {
-        head = head.getNext();
-        head.setPrev(null);
+      head = head.getNext();
+      head.setPrev(null);
     } else if (index == size - 1) {
-        tail = tail.getPrev();
-        tail.setNext(null);
+      tail = tail.getPrev();
+      tail.setNext(null);
     } else {
-        Node<T> currentNode = head;
-        for (int i = 0; i < index; i++) {
-            currentNode = currentNode.getNext();
-        }
-        currentNode.getPrev().setNext(currentNode.getNext());
-        currentNode.getNext().setPrev(currentNode.getPrev());
+      Node<T> currentNode = head;
+      for (int i = 0; i < index; i++) {
+        currentNode = currentNode.getNext();
+      }
+      currentNode.getPrev().setNext(currentNode.getNext());
+      currentNode.getNext().setPrev(currentNode.getPrev());
     }
     size--;
   }

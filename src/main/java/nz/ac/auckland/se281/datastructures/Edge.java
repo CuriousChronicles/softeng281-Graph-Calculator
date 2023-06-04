@@ -35,10 +35,13 @@ public class Edge<T> {
 
   @Override
   public boolean equals(Object obj) {
+    // Two edges are equal if they have the same source and destination.
     if (this == obj)
       return true;
+    // If the object is null or not an instance of Edge, return false.
     if (obj == null)
       return false;
+    // If the object is not an instance of Edge, return false.
     if (getClass() != obj.getClass())
       return false;
     Edge other = (Edge) obj;
