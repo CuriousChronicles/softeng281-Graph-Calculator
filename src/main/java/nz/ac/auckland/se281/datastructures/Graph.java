@@ -40,12 +40,16 @@ public class Graph<T extends Comparable<T>> {
     // Check for in degree of 0.
     for (T vertex : verticies) {
       int inDegree = 0;
+      int outDegree = 0;
       for (Edge<T> edge : edges) {
-        if (edge.getDestination() == vertex) {
+        if (edge.getDestination().equals(vertex)) {
           inDegree++;
         }
+        if (edge.getSource().equals(vertex)) {
+          outDegree++;
+        }
       }
-      if (inDegree == 0) {
+      if ((inDegree == 0) && (outDegree > 0)) {
         rootList.add(vertex);
       }
     }
@@ -297,6 +301,9 @@ public class Graph<T extends Comparable<T>> {
 
             // push all the unvisted neighbours of the vertex to the stack
             List<T> neighbours = getNeighbours(vertex);
+            // Sort the neighbours in acending order.
+            neighbours = sortList(neighbours);
+
             for (int i = neighbours.size() - 1; i >= 0; i--) {
               if (!visited.contains(neighbours.get(i))) {
                 stack.push(neighbours.get(i));
