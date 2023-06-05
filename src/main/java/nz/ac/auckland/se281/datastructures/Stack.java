@@ -84,6 +84,7 @@ public class Stack<T> {
    */
   @Override
   public String toString() {
+    // Returns a string representation of the stack.
     StringBuilder result = new StringBuilder("[");
     Node<T> currentNode = top;
     for (int i = 0; i < stackSize; i++) {
