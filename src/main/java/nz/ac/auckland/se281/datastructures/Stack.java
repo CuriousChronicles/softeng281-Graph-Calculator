@@ -84,17 +84,16 @@ public class Stack<T> {
    */
   @Override
   public String toString() {
-    // Returns a string representation of the stack e.g. [1, 2, 3, 4]
-    String result = "[";
-    Node<T> current = top;
+    StringBuilder result = new StringBuilder("[");
+    Node<T> currentNode = top;
     for (int i = 0; i < stackSize; i++) {
-      result += current.toString();
+      result.append(currentNode.getData());
       if (i < stackSize - 1) {
-        result += ", ";
+        result.append(", ");
       }
-      current = current.getNext();
+      currentNode = currentNode.getNext();
     }
-    result += "]";
-    return result;
+    result.append("]");
+    return result.toString();
   }
 }

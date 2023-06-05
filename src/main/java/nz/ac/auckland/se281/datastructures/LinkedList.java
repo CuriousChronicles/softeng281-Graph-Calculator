@@ -180,16 +180,17 @@ public class LinkedList<T> {
    */
   @Override
   public String toString() {
-    String result = "[";
+    // Returns a string representation of the linked list
+    StringBuilder result = new StringBuilder("[");
     Node<T> currentNode = head;
     for (int i = 0; i < size; i++) {
-      result += currentNode.getData();
+      result.append(currentNode.getData());
       if (i < size - 1) {
-        result += ", ";
+        result.append(", ");
       }
       currentNode = currentNode.getNext();
     }
-    result += "]";
-    return result;
+    result.append("]");
+    return result.toString();
   }
 }

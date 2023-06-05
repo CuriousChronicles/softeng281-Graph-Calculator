@@ -249,7 +249,7 @@ public class Graph<T extends Comparable<T>> {
   }
 
   /**
-   * Returns a sorted list.
+   * Returns a sorted list using bubble sort.
    *
    * @param list A list to be sorted.
    * @return A sorted list.
