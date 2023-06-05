@@ -113,7 +113,7 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Returns if the graph is transitive.
-   * 
+   *
    * @return If the graph is transitive.
    */
   public boolean isTransitive() {
@@ -167,9 +167,8 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Returns the equivalence class of the given vertex.
-   * 
+   *
    * @param vertex A vertex in the graph.
-   * 
    * @return The equivalence class of the given vertex.
    */
   public Set<T> getEquivalenceClass(T vertex) {
@@ -228,9 +227,8 @@ public class Graph<T extends Comparable<T>> {
 
   /**
    * Returns a list of neighbours of a vertex.
-   * 
-   * @param vertex A vertex in the graph.  
-   * 
+   *
+   * @param vertex A vertex in the graph.
    * @return A list of neighbours of a vertex.
    */
   public List<T> getNeighbours(T vertex) {
@@ -250,7 +248,6 @@ public class Graph<T extends Comparable<T>> {
    * Returns a sorted list.
    *
    * @param list A list to be sorted.
-   * 
    * @return A sorted list.
    */
   public List<T> sortList(List<T> list) {
@@ -329,7 +326,7 @@ public class Graph<T extends Comparable<T>> {
       queue.enqueue(root);
       visited.add(root);
 
-      breadthRecursiveHelper(queue, visited, path);
+      recursiveBreadthSearchHelper(queue, visited, path);
     }
     return path;
   }
@@ -341,7 +338,7 @@ public class Graph<T extends Comparable<T>> {
    * @param visited A list of visited vertices.
    * @param path A list of vertices in the order they were visited.
    */
-  public void breadthRecursiveHelper(Queue<T> queue, List<T> visited, List<T> path) {
+  public void recursiveBreadthSearchHelper(Queue<T> queue, List<T> visited, List<T> path) {
     if (queue.isEmpty()) {
       return;
     }
@@ -352,14 +349,14 @@ public class Graph<T extends Comparable<T>> {
     // sort the neighbours in ascending order.
     neighbours = sortList(neighbours);
 
-    for (T neighbour : getNeighbours(vertex)) {
+    for (T neighbour : neighbours) {
       if (!visited.contains(neighbour)) {
         queue.enqueue(neighbour);
         visited.add(neighbour);
       }
     }
 
-    breadthRecursiveHelper(queue, visited, path);
+    recursiveBreadthSearchHelper(queue, visited, path);
   }
 
   /**
@@ -377,7 +374,7 @@ public class Graph<T extends Comparable<T>> {
     for (T root : roots) {
       stack.push(root);
       visited.add(root);
-      depthRecursiveHelper(stack, visited, path);
+      recursiveDepthSearchHelper(stack, visited, path);
     }
 
     return path;
@@ -390,7 +387,7 @@ public class Graph<T extends Comparable<T>> {
    * @param visited A list of visited vertices.
    * @param path A list of vertices in the order they were visited.
    */
-  public void depthRecursiveHelper(Stack<T> stack, List<T> visited, List<T> path) {
+  public void recursiveDepthSearchHelper(Stack<T> stack, List<T> visited, List<T> path) {
     // Base case
     if (stack.isEmpty()) {
       return;
@@ -409,6 +406,6 @@ public class Graph<T extends Comparable<T>> {
         visited.add(neighbours.get(i));
       }
     }
-    depthRecursiveHelper(stack, visited, path);
+    recursiveDepthSearchHelper(stack, visited, path);
   }
 }

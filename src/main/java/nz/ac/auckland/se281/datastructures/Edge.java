@@ -10,7 +10,7 @@ package nz.ac.auckland.se281.datastructures;
 public class Edge<T> {
   private T source;
   private T destination;
-  
+
   public Edge(T source, T destination) {
     this.source = source;
     this.destination = destination;
@@ -36,25 +36,32 @@ public class Edge<T> {
   @Override
   public boolean equals(Object obj) {
     // Two edges are equal if they have the same source and destination.
-    if (this == obj)
+    if (this == obj) {
       return true;
+    }
     // If the object is null or not an instance of Edge, return false.
-    if (obj == null)
+    if (obj == null) {
       return false;
+    }
     // If the object is not an instance of Edge, return false.
-    if (getClass() != obj.getClass())
+    if (getClass() != obj.getClass()) {
       return false;
-    Edge other = (Edge) obj;
+    }
+    Edge<T> other = (Edge<T>) obj;
     if (source == null) {
-      if (other.source != null)
+      if (other.source != null) {
         return false;
-    } else if (!source.equals(other.source))
+      }
+    } else if (!source.equals(other.source)) {
       return false;
+    }
     if (destination == null) {
-      if (other.destination != null)
+      if (other.destination != null) {
         return false;
-    } else if (!destination.equals(other.destination))
+      }
+    } else if (!destination.equals(other.destination)) {
       return false;
+    }
     return true;
   }
 }
